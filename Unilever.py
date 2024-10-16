@@ -146,6 +146,21 @@ if data:
     with col2:
         if 'Name_Agent' in df_filtered.columns:
             st.subheader("Histogramme des agents")
-            bar_chart_data = df_filtered['Name_Agent'].value_counts()
-            fig = px.bar(bar_chart_data, x=bar_chart_data.index, y=bar_chart_data.values, labels={"x": "Nom Agent", "y": "Nombre d'occurrences"}, title="Nombre d'agents")
-            st.plotly_chart(fig)
+            
+            # Vérification que df_filtered n'est pas vide
+            if not df_filtered.empty:
+                # Utilisation correcte des colonnes pour l'histogramme
+                bar_chart_data = df_filtered['Name_Agent'].value_counts()
+                if not bar_chart_data.empty:
+                    fig = px.bar(
+                        bar_chart_data, 
+                        x=bar_chart_data.index, 
+                        y=bar_chart_data.values, 
+                        labels={"x": "Nom Agent", "y": "Nombre d'occurrences"}, 
+                        title="Nombre d'agents"
+                    )
+                    st.plotly_chart(fig)
+                else:
+                    st.warning("Aucune donnée pour l'histogramme des agents.")
+            else:
+                st.warning("Le DataFrame filtré est vide.")
